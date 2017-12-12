@@ -2,3 +2,5 @@ __pycache__
 
 model/
 tmp
+
+*.js
