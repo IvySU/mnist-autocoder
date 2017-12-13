@@ -56,7 +56,7 @@ def decoder(feature):
                               name='weights')
         biases = tf.Variable(tf.zeros(shape=[256]),
                              name='biases')
-        output = tf.nn.relu(tf.matmul(output, weights) + biases)
+        output = tf.nn.sigmoid(tf.matmul(output, weights) + biases)
         var_list += [weights, biases]
 
     with tf.name_scope('decoder/fc1'):
@@ -64,7 +64,7 @@ def decoder(feature):
                               name='weights')
         biases = tf.Variable(tf.zeros(shape=[256]),
                              name='biases')
-        output = tf.nn.relu(tf.matmul(output, weights) + biases)
+        output = tf.nn.sigmoid(tf.matmul(output, weights) + biases)
         var_list += [weights, biases]
 
     with tf.name_scope('decoder/fc2'):
@@ -72,7 +72,7 @@ def decoder(feature):
                               name='weights')
         biases = tf.Variable(tf.zeros(shape=[256]),
                              name='biases')
-        output = tf.nn.relu(tf.matmul(output, weights) + biases)
+        output = tf.nn.sigmoid(tf.matmul(output, weights) + biases)
         var_list += [weights, biases]
 
     with tf.name_scope('decoder/output'):
