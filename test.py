@@ -12,12 +12,20 @@ from matplotlib import pyplot as plt
 import model
 
 
-def draw(x, x_, path):
-    fig, axs = plt.subplots(nrows=1, ncols=2)
-    axs[0].matshow(np.reshape(x, [28, 28]), cmap='Greys')
-    axs[0].axis('off')
-    axs[1].matshow(np.reshape(x_, [28, 28]), cmap='Greys')
-    axs[1].axis('off')
+def draw(x, x_, c, path):
+    plt.figure()
+    ax = plt.subplot(221)
+    ax.matshow(np.reshape(x, [28, 28]), cmap='Greys')
+    ax.axis('off')
+    ax = plt.subplot(222)
+    ax.matshow(np.reshape(x_, [28, 28]), cmap='Greys')
+    ax.axis('off')
+    ax = plt.subplot(212)
+    ax.plot(c, 'o', ms=20, mfc='orange')
+    ax.set_xticks(range(10))
+    ax.set_xlabel('class')
+    ax.set_ylabel('score')
+    ax.grid()
     plt.savefig(path)
     plt.close()
 
@@ -41,9 +49,10 @@ global_step = tf.Variable(0, name='global_step', trainable=False)
 mnist = read_data_sets('tmp/MNIST_data')
 
 with tf.Session() as sess:
-    c, _ = model.encoder(x)
+    c, _ = model.classifier(x, 10)
+    sc = tf.nn.sigmoid(c)
     x_, _ = model.decoder(c)
-    loss = model.loss(x, x_)
+    loss = model.loss_decoder(x, x_)
 
     sess.run(tf.global_variables_initializer())
 
@@ -51,7 +60,7 @@ with tf.Session() as sess:
     saver.restore(sess, model_path)
     print('"%s" loaded' % (model_path))
 
-    eval_x_, eval_loss, step = sess.run([x_, loss, global_step], feed_dict={x: mnist.test.images})
+    eval_x_, eval_sc, eval_loss, step = sess.run([x_, sc, loss, global_step], feed_dict={x: mnist.test.images})
     print('loss: %g' % (eval_loss))
 
     if args.draw:
@@ -62,5 +71,5 @@ with tf.Session() as sess:
         for _ in range(64):
             i = random.randint(0, len(mnist.test.images))
             path = os.path.join(dirpath, str(i) + '.png')
-            draw(mnist.test.images[i], eval_x_[i], path)
+            draw(mnist.test.images[i], eval_x_[i], eval_sc[i], path)
             print('test', i, 'saved to', path)
