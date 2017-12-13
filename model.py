@@ -5,10 +5,34 @@ def encoder(x):
     var_list = []
     output = x
 
-    with tf.name_scope('encoder/fc'):
+    with tf.name_scope('encoder/fc0'):
         weights = tf.Variable(tf.truncated_normal(shape=[int(output.shape[1]), 256]),
                               name='weights')
         biases = tf.Variable(tf.zeros(shape=[256]),
+                             name='biases')
+        output = tf.nn.sigmoid(tf.matmul(output, weights) + biases)
+        var_list += [weights, biases]
+
+    with tf.name_scope('encoder/fc1'):
+        weights = tf.Variable(tf.truncated_normal(shape=[int(output.shape[1]), 128]),
+                              name='weights')
+        biases = tf.Variable(tf.zeros(shape=[128]),
+                             name='biases')
+        output = tf.nn.sigmoid(tf.matmul(output, weights) + biases)
+        var_list += [weights, biases]
+
+    with tf.name_scope('encoder/fc2'):
+        weights = tf.Variable(tf.truncated_normal(shape=[int(output.shape[1]), 128]),
+                              name='weights')
+        biases = tf.Variable(tf.zeros(shape=[128]),
+                             name='biases')
+        output = tf.nn.sigmoid(tf.matmul(output, weights) + biases)
+        var_list += [weights, biases]
+
+    with tf.name_scope('encoder/output'):
+        weights = tf.Variable(tf.truncated_normal(shape=[int(output.shape[1]), 16]),
+                              name='weights')
+        biases = tf.Variable(tf.zeros(shape=[16]),
                              name='biases')
         output = tf.nn.sigmoid(tf.matmul(output, weights) + biases)
         var_list += [weights, biases]
@@ -20,7 +44,31 @@ def decoder(c):
     var_list = []
     output = c
 
-    with tf.name_scope('decoder/fc'):
+    with tf.name_scope('decoder/fc0'):
+        weights = tf.Variable(tf.truncated_normal(shape=[int(output.shape[1]), 128]),
+                              name='weights')
+        biases = tf.Variable(tf.zeros(shape=[128]),
+                             name='biases')
+        output = tf.nn.sigmoid(tf.matmul(output, weights) + biases)
+        var_list += [weights, biases]
+
+    with tf.name_scope('decoder/fc1'):
+        weights = tf.Variable(tf.truncated_normal(shape=[int(output.shape[1]), 128]),
+                              name='weights')
+        biases = tf.Variable(tf.zeros(shape=[128]),
+                             name='biases')
+        output = tf.nn.sigmoid(tf.matmul(output, weights) + biases)
+        var_list += [weights, biases]
+
+    with tf.name_scope('decoder/fc2'):
+        weights = tf.Variable(tf.truncated_normal(shape=[int(output.shape[1]), 256]),
+                              name='weights')
+        biases = tf.Variable(tf.zeros(shape=[256]),
+                             name='biases')
+        output = tf.nn.sigmoid(tf.matmul(output, weights) + biases)
+        var_list += [weights, biases]
+
+    with tf.name_scope('decoder/output'):
         weights = tf.Variable(tf.truncated_normal(shape=[int(output.shape[1]), 28*28]),
                               name='weights')
         biases = tf.Variable(tf.zeros(shape=[28*28]),
