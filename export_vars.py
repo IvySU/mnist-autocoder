@@ -42,7 +42,7 @@ else:
 x = tf.placeholder(tf.float32, [None, 28*28])
 
 with tf.Session() as sess:
-    c, encoder_vars = model.encoder(x)
+    c, classifier_vars = model.classifier(x, 10)
     _, decoder_vars = model.decoder(c)
 
     sess.run(tf.global_variables_initializer())
@@ -51,10 +51,22 @@ with tf.Session() as sess:
     saver.restore(sess, model_path)
     print('"%s" loaded' % (model_path))
 
-    eval_encoder_vars, eval_decoder_vars = sess.run([encoder_vars, decoder_vars])
+    eval_classifier_vars, eval_decoder_vars = sess.run([classifier_vars, decoder_vars])
 
     with open(file_path, "w") as handle:
-        handle.write(mat2str('encoder_W', eval_encoder_vars[0]))
-        handle.write(vec2str('encoder_b', eval_encoder_vars[1]))
-        handle.write(mat2str('decoder_W', eval_decoder_vars[0]))
-        handle.write(vec2str('decoder_b', eval_decoder_vars[1]))
+        handle.write(mat2str('classifier_W0', eval_classifier_vars[0]))
+        handle.write(vec2str('classifier_b0', eval_classifier_vars[1]))
+        handle.write(mat2str('classifier_W1', eval_classifier_vars[2]))
+        handle.write(vec2str('classifier_b1', eval_classifier_vars[3]))
+        handle.write(mat2str('classifier_W2', eval_classifier_vars[4]))
+        handle.write(vec2str('classifier_b2', eval_classifier_vars[5]))
+        handle.write(mat2str('classifier_W3', eval_classifier_vars[6]))
+        handle.write(vec2str('classifier_b3', eval_classifier_vars[7]))
+        handle.write(mat2str('decoder_W0', eval_decoder_vars[0]))
+        handle.write(vec2str('decoder_b0', eval_decoder_vars[1]))
+        handle.write(mat2str('decoder_W1', eval_decoder_vars[2]))
+        handle.write(vec2str('decoder_b1', eval_decoder_vars[3]))
+        handle.write(mat2str('decoder_W2', eval_decoder_vars[4]))
+        handle.write(vec2str('decoder_b2', eval_decoder_vars[5]))
+        handle.write(mat2str('decoder_W3', eval_decoder_vars[6]))
+        handle.write(vec2str('decoder_b3', eval_decoder_vars[7]))
