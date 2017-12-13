@@ -11,7 +11,7 @@ def classifier(x, n_class):
                               name='weights')
         biases = tf.Variable(tf.zeros(shape=[256]),
                              name='biases')
-        output = tf.nn.relu(tf.matmul(output, weights) + biases)
+        output = tf.nn.sigmoid(tf.matmul(output, weights) + biases)
         var_list += [weights, biases]
 
     with tf.name_scope('classifier/fc1'):
@@ -19,7 +19,7 @@ def classifier(x, n_class):
                               name='weights')
         biases = tf.Variable(tf.zeros(shape=[256]),
                              name='biases')
-        output = tf.nn.relu(tf.matmul(output, weights) + biases)
+        output = tf.nn.sigmoid(tf.matmul(output, weights) + biases)
         var_list += [weights, biases]
 
     with tf.name_scope('classifier/fc2'):
@@ -27,7 +27,7 @@ def classifier(x, n_class):
                               name='weights')
         biases = tf.Variable(tf.zeros(shape=[256]),
                              name='biases')
-        output = tf.nn.relu(tf.matmul(output, weights) + biases)
+        output = tf.nn.sigmoid(tf.matmul(output, weights) + biases)
         var_list += [weights, biases]
 
     with tf.name_scope('classifier/output'):
