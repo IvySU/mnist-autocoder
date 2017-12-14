@@ -32,7 +32,7 @@ def draw(x, x_, c, path):
 
 argparser = argparse.ArgumentParser(description='MNIST Autocoder')
 argparser.add_argument('--model', metavar='<model name>',
-                       type=str, default='coder',
+                       type=str, default='semiauto',
                        help='model to test')
 argparser.add_argument('--draw',
                        action='store_true',
