@@ -23,7 +23,7 @@ def vec2str(name, V):
 
 argparser = argparse.ArgumentParser(description='MNIST Autocoder')
 argparser.add_argument('--model', metavar='<model name>',
-                       type=str, default='coder',
+                       type=str, default='16d',
                        help='model to test')
 argparser.add_argument('--file', metavar='<file name>',
                        type=str,
