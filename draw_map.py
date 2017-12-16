@@ -12,12 +12,12 @@ import model
 
 
 def draw(x, path, size):
-    fig, axs = plt.subplots(nrows=size, ncols=size)
-    plt.subplots_adjust(left=0.05, bottom=0.05, right=0.95, top=0.95, wspace=0, hspace=0)
+    fig, axs = plt.subplots(nrows=size, ncols=size, figsize=[4, 4])
+    plt.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0, hspace=0)
     for i in range(size):
         for j in range(size):
-            axs[i][j].matshow(np.reshape(x[i * size + j], [28, 28]), cmap='Greys')
-            axs[i][j].axis('off')
+            axs[j][i].matshow(np.reshape(x[i * size + j], [28, 28]), cmap='Greys')
+            axs[j][i].axis('off')
     plt.savefig(path, dpi=1024)
     plt.close()
 
@@ -40,7 +40,7 @@ cs = []
 size = 32
 for i in range(size):
     for j in range(size):
-        cs.append([i / (size-1), j / (size-1)])
+        cs.append([(i+0.5) / (size-1), (j+0.5) / (size-1)])
 
 with tf.Session() as sess:
     x_, _ = model.decoder(c)
