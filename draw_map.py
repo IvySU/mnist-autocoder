@@ -40,7 +40,7 @@ cs = []
 size = 32
 for i in range(size):
     for j in range(size):
-        cs.append([(i+0.5) / (size-1), (j+0.5) / (size-1)])
+        cs.append([(i+0.5) / size, (j+0.5) / size])
 
 with tf.Session() as sess:
     x_, _ = model.decoder(c)
